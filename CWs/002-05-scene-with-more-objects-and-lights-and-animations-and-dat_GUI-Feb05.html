@@ -3,8 +3,8 @@
   <title> Ch01-04 - Scene by A.T. with More Objects and Lights and Animations</title>
    <script src="../../libs/three.js"> </script>
    <script src="../../libs/stats.js"> </script>
-   <!-- Feb05 - Using dat.GUI - Step 1.  Include reference to dat.GUI -->
-   <script src="../../libs/dat.GUI.js"></script>
+   <!-- Feb05 - Using dat.GUI - Step 1. Include reference to dat.GUI -->
+   <script src="../../libs/dat.GUI.js"> </script>
    <style>
         body {
             margin: 0;
@@ -113,37 +113,31 @@
    }
    var scene,camera,renderer, stats,spotLight;
    var frameCounter=0;
-   //Feb05 Step 1'. Declare global variables needed
 
+   //Feb05 - Using dat.GUI - Step 1'. Declare global variables needed
+   var controls,gui;
    function init(){
 		//
 		stats=initStats();
-		//Feb05 - Using dat.GUI - Step 2.  Specify controls
-
+		// Feb05 - Using dat.GUI - Step 2. Specify controls
+		
 		controls=new function(){
 			this.rotationSpeed=0.01;
 			this.spotLightHeight=40;
-            this.dx=.1;
-            this.dy=5;
-            this.dz=.2;
-            this.numberOfBuildings=1500;
 		}
-
-		//Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
+		
+		// Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
 		gui=new dat.GUI();
 
-		//Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
-		gui.add(controls, 'rotationSpeed', 0,0.5);
-		gui.add(controls, 'spotLightHeight', 0,100);
-        //Feb05 - exercise
-        gui.add(controls, 'dx', 0,5);
-		gui.add(controls, 'dy', 0,15);
-		gui.add(controls, 'dz', 0,5);
-        gui.add(controls, 'numberOfBuildings', 0,2000);
-
-
-
-
+		// Feb05 - Using dat.GUI - Step 3'. Connect gui with controls
+		gui.add(controls,'rotationSpeed',0,0.5);
+		gui.add(controls,'spotLightHeight',0,100);
+		
+		
+		
+		
+		
+		
 		//scene
 		
 		scene=new THREE.Scene();		
@@ -182,10 +176,10 @@
 		//var cube=createCube(4,4,4,0xFF0000,true,-4,3,0,5,1,1,0,0,-30);
 		//scene.add(cube);
 		
-		for(var i=0;i<controls.numberOfBuildings;i++){
-			var dx=Math.random()*controls.dx;
-			var dy=Math.random()*controls.dy;
-			var dz=Math.random()*controls.dz;
+		for(var i=0;i<1500;i++){
+			var dx=Math.random()*.1;
+			var dy=Math.random()*5;
+			var dz=Math.random()*.2;
 			
 			var px=-10+Math.random()*20;
 			//var py=-5+Math.random()*10;
@@ -226,7 +220,7 @@
 		scene.add(plane);
 		
 		spotLight=new THREE.SpotLight(0xFFFFFF);
-		spotLight.position.y=40;
+		spotLight.position.y=controls.spotLightHeight; //Feb05 - use controls
 		scene.add(spotLight);
 		
 		
@@ -246,13 +240,13 @@
 	 
 	 function renderScene(){
 		frameCounter += 1;
-		var t=frameCounter*0.01;
-		console.log(t);
+		var t=frameCounter*controls.rotationSpeed;//Feb. 5 - use controls.rotationSpeed
+		//console.log(t);
 		
 		var x=spotLight.position.x;
-		var y=spotLight.position.y;
+		var y=controls.spotLightHeight; //Feb. 5 - use controls.spotLightHeight
 		var z=spotLight.position.z;
-		spotLight.position.set(x*Math.sin(t)-10,40,z*Math.cos(t)-10)
+		spotLight.position.set(x*Math.sin(t)-10,y,z*Math.cos(t)-10)
 		scene.rotation.set(0,t,0);
 		
 		stats.update();
