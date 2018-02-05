@@ -4,7 +4,7 @@
    <script src="../../libs/three.js"> </script>
    <script src="../../libs/stats.js"> </script>
    <!-- Feb05 - Using dat.GUI - Step 1.  Include reference to dat.GUI -->
-   <script crc="../../libs/dat.GUI.js"></script>
+   <script src="../../libs/dat.GUI.js"></script>
    <style>
         body {
             margin: 0;
@@ -123,6 +123,10 @@
 		controls=new function(){
 			this.rotationSpeed=0.01;
 			this.spotLightHeight=40;
+            this.dx=.1;
+            this.dy=5;
+            this.dz=.2;
+            this.numberOfBuildings=1500;
 		}
 
 		//Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
@@ -131,6 +135,13 @@
 		//Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
 		gui.add(controls, 'rotationSpeed', 0,0.5);
 		gui.add(controls, 'spotLightHeight', 0,100);
+        //Feb05 - exercise
+        gui.add(controls, 'dx', 0,5);
+		gui.add(controls, 'dy', 0,15);
+		gui.add(controls, 'dz', 0,5);
+        gui.add(controls, 'numberOfBuildings', 0,2000);
+
+
 
 
 		//scene
@@ -171,10 +182,10 @@
 		//var cube=createCube(4,4,4,0xFF0000,true,-4,3,0,5,1,1,0,0,-30);
 		//scene.add(cube);
 		
-		for(var i=0;i<1500;i++){
-			var dx=Math.random()*.1;
-			var dy=Math.random()*5;
-			var dz=Math.random()*.2;
+		for(var i=0;i<controls.numberOfBuildings;i++){
+			var dx=Math.random()*controls.dx;
+			var dy=Math.random()*controls.dy;
+			var dz=Math.random()*controls.dz;
 			
 			var px=-10+Math.random()*20;
 			//var py=-5+Math.random()*10;
