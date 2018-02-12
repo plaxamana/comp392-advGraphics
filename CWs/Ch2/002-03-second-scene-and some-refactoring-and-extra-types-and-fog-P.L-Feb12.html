@@ -59,9 +59,12 @@
 			this.fogNear=0.1;
 			this.fogFar=100;
 
-			//Exercise Feb 12
+			//Exercise1 Feb 12
 			this.fogExp2Color="#FFFFFF";
 			this.fog2ExpDensity=0.009;
+
+			//Exercise2 Feb 12
+			this.overrideMaterialColor = "#FFFFFF";
 
 			
 			//var folderFog = this.addFolder('fog control');
@@ -93,6 +96,9 @@
 		var folderFog2 = gui.addFolder('Fog Controls2');
 		folderFog2.addColor(controls, 'fogExp2Color').onChange((c)=> {scene.fog.color = new THREE.Color (c);}); //change scene.fogcolor directly
 		folderFog2.add(controls,'fog2ExpDensity',0,0.03).onChange((d) => {scene.fog.density=d;}); //change scene.fog far directly
+		
+		//Exercise2 
+		gui.addColor(controls, 'overrideMaterialColor').onChange((c) =>{ scene.overrideMaterial.color=new THREE.Color(c);});
 
 		{//add a scene
 		
@@ -196,6 +202,8 @@
 		//renderScene(renderer,scene,camera);
 		//THREE.Fog(c,n,f);
 		scene.fog=new THREE.Fog(0xFFFFFF,1,100);
+
+		scene.overrideMaterialColor = new THREE.MeshLambertMaterial(0xFFFFFF);
 		renderScene();
 		}
 	function Deg2Rad(angle_in_deg){
