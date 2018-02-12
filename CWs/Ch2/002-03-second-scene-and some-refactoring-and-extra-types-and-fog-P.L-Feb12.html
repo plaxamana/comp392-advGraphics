@@ -87,12 +87,12 @@
 		var folderFog = gui.addFolder('Fog Controls');
 		folderFog.addColor(controls, 'fogColor').onChange((c)=> {scene.fog.color = new THREE.Color (c);}); //change scene.fogcolor directly
 		folderFog.add(controls,'fogNear',0,1).onChange((n) => {scene.fog.near=n;}); //change scene.fog near directly
-		folderFog.add(controls,'fogFar',1,200).onChange((n) => {scene.fog.far=n;}); //change scene.fog far directly
-		//Exercise
-		
+		folderFog.add(controls,'fogFar',1,200).onChange((f) => {scene.fog.far=f;}); //change scene.fog far directly
+	
+		//Exercise for Feb 12	
 		var folderFog2 = gui.addFolder('Fog Controls2');
 		folderFog2.addColor(controls, 'fogExp2Color').onChange((c)=> {scene.fog.color = new THREE.Color (c);}); //change scene.fogcolor directly
-		folderFog2.add(controls,'fog2ExpDensity',1,200).onChange((n) => {scene.fog.far=n;}); //change scene.fog far directly
+		folderFog2.add(controls,'fog2ExpDensity',0,0.03).onChange((d) => {scene.fog.density=d;}); //change scene.fog far directly
 
 		{//add a scene
 		
@@ -321,7 +321,7 @@
 		
 		
 		
-		//scene.rotation.set(0,t,0);
+		scene.rotation.set(0,t,0);
 		
 		stats.update();
 		requestAnimationFrame(renderScene);
