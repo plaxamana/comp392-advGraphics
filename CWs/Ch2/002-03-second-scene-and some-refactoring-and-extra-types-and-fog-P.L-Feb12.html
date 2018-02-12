@@ -58,6 +58,12 @@
 			this.fogColor="#0c0c0c";
 			this.fogNear=0.1;
 			this.fogFar=100;
+
+			//Exercise Feb 12
+			this.fogExp2Color="#FFFFFF";
+			this.fog2ExpDensity=0.009;
+
+			
 			//var folderFog = this.addFolder('fog control');
 			//folderFog.add(controls, '')
 		}
@@ -83,7 +89,10 @@
 		folderFog.add(controls,'fogNear',0,1).onChange((n) => {scene.fog.near=n;}); //change scene.fog near directly
 		folderFog.add(controls,'fogFar',1,200).onChange((n) => {scene.fog.far=n;}); //change scene.fog far directly
 		//Exercise
-
+		
+		var folderFog2 = gui.addFolder('Fog Controls2');
+		folderFog2.addColor(controls, 'fogExp2Color').onChange((c)=> {scene.fog.color = new THREE.Color (c);}); //change scene.fogcolor directly
+		folderFog2.add(controls,'fog2ExpDensity',1,200).onChange((n) => {scene.fog.far=n;}); //change scene.fog far directly
 
 		{//add a scene
 		
