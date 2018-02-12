@@ -55,7 +55,11 @@
 			//Feb.08-new controls for the additional light types
 			this.ambientLightColor="#0c0c0c";
 			//Feb.12 - new controls for fog
-			
+			this.fogColor="#0c0c0c";
+			this.fogNear=0.1;
+			this.fogFar=100;
+			//var folderFog = this.addFolder('fog control');
+			//folderFog.add(controls, '')
 		}
 		{//dat.GUI instatiation + writing up of dat.GUI controls 
 		// Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
@@ -73,6 +77,14 @@
 		//gui.add(controls,'ambientLightColor');//first try
 		gui.addColor(controls,'ambientLightColor').onChange((c) => {ambientLight.color=new THREE.Color(c);});//Second try with add color
 		}
+		//Feb 12
+		var folderFog = gui.addFolder('Fog Controls');
+		folderFog.addColor(controls, 'fogColor').onChange((c)=> {scene.fog.color = new THREE.Color (c);}); //change scene.fogcolor directly
+		folderFog.add(controls,'fogNear',0,1).onChange((n) => {scene.fog.near=n;}); //change scene.fog near directly
+		folderFog.add(controls,'fogFar',1,200).onChange((n) => {scene.fog.far=n;}); //change scene.fog far directly
+		//Exercise
+
+
 		{//add a scene
 		
 		scene=new THREE.Scene();		
