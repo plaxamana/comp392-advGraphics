@@ -27,13 +27,10 @@
    
    <script>
    
-
-
    function init(){
    {//declared variable(s)
       var scene,camera,renderer, stats,spotLight;
 	  var frameCounter=0;
-
       //Feb05 - Using dat.GUI - Step 1'. Declare global variables needed
       var controls,gui;
       var red_cube;
@@ -58,14 +55,11 @@
 			this.fogColor="#0c0c0c";
 			this.fogNear=0.1;
 			this.fogFar=100;
-
 			//Exercise1 Feb 12
 			this.fogExp2Color="#FFFFFF";
 			this.fog2ExpDensity=0.009;
-
 			//Exercise2 Feb 12
 			this.overrideMaterialColor = "#FFFFFF";
-
 			
 			//var folderFog = this.addFolder('fog control');
 			//folderFog.add(controls, '')
@@ -73,7 +67,6 @@
 		{//dat.GUI instatiation + writing up of dat.GUI controls 
 		// Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
 		gui=new dat.GUI();
-
 		// Feb05 - Using dat.GUI - Step 3'. Connect gui with controls
 		gui.add(controls,'rotationSpeed',0,0.5);
 		gui.add(controls,'spotLightHeight',0,100);
@@ -108,22 +101,17 @@
 		camera.position.x=30;
 		camera.position.y=50;
 		camera.position.z=30;
-
 		camera.lookAt(scene.position);
-
 		//renderer
 		renderer=new THREE.WebGLRenderer();
 		renderer.setClearColor();
         renderer.setClearColor(new THREE.Color(0xBBFFBB));
         renderer.setSize(800,600);
 		renderer.shadowMapEnabled=true;
-
-
 		
 		//object(s)
 		var axes=new THREE.AxisHelper(30);		
 		scene.add(axes);
-
         // add the sphere to the scene
 		//var sphere=createSphere(4,10,5,0x7777ff,true,20,4,2,3,1,3);
         //scene.add(sphere);
@@ -133,7 +121,6 @@
 			var px=-10+Math.random()*20;
 			var py=-5+Math.random()*10;
 			var pz=-10+Math.random()*20;
-
 			var sx=.5+Math.random()*3.5;
 			var sy=.5+Math.random()*3.5;
 			var sz=.5+Math.random()*3.5;
@@ -145,7 +132,6 @@
 		//function createCube(dx,dy,dz,col,wf,px,py,pz,sx,sy,sz,rx,ry,rz){
 		//red_cube=createCubeMLM(4,7,4,0xFF0000,false,-4,3,0,1,1,1,0,0,0);
 		red_cube=createCubeMLM(4,7,4,0xFF0000,false,0,0,0);
-
 		red_cube.castShadow=true;
 		
 		scene.add(red_cube);
@@ -202,7 +188,6 @@
 		//renderScene(renderer,scene,camera);
 		//THREE.Fog(c,n,f);
 		scene.fog=new THREE.Fog(0xFFFFFF,1,100);
-
 		scene.overrideMaterial=new THREE.MeshLambertMaterial({color: 0xFFFFFF});
 		renderScene();
 		}
@@ -221,23 +206,18 @@
         var cubeGeometry = new THREE.BoxGeometry(dx || 1,dy || 1, dz || 1);
         var cubeMaterial = new THREE.MeshBasicMaterial({color: col || 0xFFFFFF, wireframe: wf || false});
         var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
         // position the cube
         cube.position.x = px || 0;
         cube.position.y = py || 0;
         cube.position.z = pz || 0;
-
 		cube.scale.x=sx || 1;
 		cube.scale.y=sy || 1;
 		cube.scale.z=sz || 1;
-
 		cube.rotation.x=Deg2Rad(rx);
 		cube.rotation.y=Deg2Rad(ry);
 		cube.rotation.z=Deg2Rad(rz);
-
 		
 		return cube;
-
    }
     function createCubeMLM(dx,dy,dz,col,wf,px,py,pz,sx,sy,sz,rx,ry,rz){
 		//MeshLambertMaterial
@@ -246,23 +226,18 @@
         var cubeGeometry = new THREE.BoxGeometry(dx || 1,dy || 1, dz || 1);
         var cubeMaterial = new THREE.MeshLambertMaterial({color: col || 0xFFFFFF, wireframe: wf || false});
         var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
         // position the cube
         cube.position.x = px || 0;
         cube.position.y = py || 0;
         cube.position.z = pz || 0;
-
 		cube.scale.x=sx || 1;
 		cube.scale.y=sy || 1;
 		cube.scale.z=sz || 1;
-
 		cube.rotation.x=Deg2Rad(rx);
 		cube.rotation.y=Deg2Rad(ry);
 		cube.rotation.z=Deg2Rad(rz);
-
 		
 		return cube;
-
    } 
     function createSphere(r,nw,nh,col,wf,px,py,pz, sx,sy,sz){
 		// r - radius
@@ -299,7 +274,6 @@
 			var px=-10+Math.random()*20;
 			var py=dy/2;
 			var pz=-10+Math.random()*20;
-
 			var cube=createCubeMLM(dx,dy,dz,0x8888FF,false,px,py,pz);
 			scene.add(cube);
 		}
@@ -313,16 +287,13 @@
 		//red_cube=createCubeMLM(controls.dx,7,4,0xFF0000,false,-4,3,0,5,1,1,0,0,-30);
 		red_cube=createCubeMLM(4,7,4,0xFF0000,false,0,0,0);
 		red_cube.castShadow=true;
-
 		scene.add(red_cube);
-
 		
 		var x=spotLight.position.x;
 		var y=controls.spotLightHeight; //Feb. 5 - use controls.spotLightHeight
 		var z=spotLight.position.z;
 		spotLight.position.set(x*Math.sin(t)-10,y,z*Math.cos(t)-10)
 		spotLight.lookAt(red_cube);
-
 		//Feb.08
 		//console.log(controls.ambientLightColor);
 		//ambientLight.color=new THREE.Color(controls.ambientLightColor);
@@ -340,5 +311,3 @@
    </script>
   </body>
 </html>  
-   
- 
