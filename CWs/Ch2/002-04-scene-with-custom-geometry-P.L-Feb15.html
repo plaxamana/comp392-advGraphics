@@ -59,6 +59,10 @@
 				this.triangle_pz = 0;
 				this.triangle_sx = 1;
 				this.triangle_sz = 1;
+				//Feb.22 - new controls for tetrahedron
+				this.tetrahedronVisible = true;
+				this.buildingsVisible = true;
+
 			}
 			{// dat.GUI instatiation + wiring up of dat.GUI controls
 				// Feb05 - Using dat.GUI - Step 3. Instantiate dat.GUI
@@ -78,8 +82,24 @@
 				var triangleFolder = gui.addFolder("Triangle Controls");
 				triangleFolder.add(controls, 'triangle_px', -20, 30).onChange((px) => { triangleMesh.position.x = px; });
 				triangleFolder.add(controls, 'triangle_pz', -20, 30).onChange((pz) => { triangleMesh.position.z = pz; });
+				
+				//buildingsVisible
+				gui.add(controls, 'buildingsVisible').onChange((visible)=>{
+					//tetrahedronMesh.visible = visible;
+					scene.traverse((obj)=>{
+						if(obj.name.startsWith("Building")){
+							obj.visible=visible;
+						}
+					});
+				});
 
+				//Feb.22 - tetraheron control(s)
 
+				var tetrahedronFolder = gui.addFolder("Tetraheron Controls");
+				tetrahedronFolder.add(controls, 'tetrahedronVisible').onChange((visible)=>{
+					tetrahedronMesh.visible = visible;
+				});
+				
 
 			}
 			{//scene + camera+ renderer+axishelper
@@ -204,6 +224,35 @@
 
 
 				}
+
+				{//Feb.22 - Custom Geometry - a tetrahedron
+					var vertices2 = [
+						new THREE.Vector3(0, 0, 0),	//V_0 (index 0)
+						new THREE.Vector3(0, 0, 1),	//V_1 (index 1)
+						new THREE.Vector3(1, 0, 0),	//V_2 (index 2)
+						new THREE.Vector3(0, 1, 0)	//V_3 (index 3)
+					];
+
+					var faces2 = [
+						new THREE.Face3(0, 2, 1),		//F_0 - swap indexes
+						new THREE.Face3(1, 2, 3),		//F_1
+						new THREE.Face3(0, 3, 2),		//F_2
+						new THREE.Face3(0, 1, 3)		//F_3
+					];
+
+					var tetrahedronGeo = new THREE.Geometry();
+					tetrahedronGeo.vertices = vertices2;
+					tetrahedronGeo.faces = faces2;
+					tetrahedronGeo.computeFaceNormals();
+
+					var tetrahedronMat = new THREE.MeshLambertMaterial({ color: 0x00FFFF });
+
+					var tetrahedronMesh = new THREE.Mesh(tetrahedronGeo, tetrahedronMat);
+					tetrahedronMesh.scale.set(15, 15, 15);
+
+					scene.add(tetrahedronMesh);
+				}
+
 			}
 			{//render all this world (scene)
 				document.getElementById("my-webgl-output").appendChild(renderer.domElement);
@@ -305,6 +354,7 @@
 					var pz = -10 + Math.random() * 20;
 
 					var cube = createCubeMLM(dx, dy, dz, 0x8888FF, false, px, py, pz);
+					cube.name="Building"+i;
 					scene.add(cube);
 				}
 			}
@@ -313,12 +363,12 @@
 				frameCounter += 1;
 				var t = frameCounter * controls.rotationSpeed;//Feb. 5 - use controls.rotationSpeed
 				//console.log(t);
-				scene.remove(red_cube);
+				//scene.remove(red_cube);
 				//red_cube=createCubeMLM(controls.dx,7,4,0xFF0000,false,-4,3,0,5,1,1,0,0,-30);
 				red_cube = createCubeMLM(4, 7, 4, 0xFF0000, false, 0, 0, 0);
 				red_cube.castShadow = true;
 
-				scene.add(red_cube);
+				//scene.add(red_cube);
 
 
 				var x = spotLight.position.x;
@@ -331,7 +381,9 @@
 				//console.log(controls.ambientLightColor);
 				//ambientLight.color=new THREE.Color(controls.ambientLightColor);
 
-
+				//if(controls.tetrahedonVisible){
+					tetrahedronMesh.rotation.set(0,t,0);
+				//}
 
 				//scene.rotation.set(t,0,0);
 
