@@ -116,7 +116,8 @@
 		// drawKoch(v0,v2,color2,color0,3);
 		
 		var tetrahedron = getTetrahedron(v0,v1,v2,v3);
-        scene.add(tetrahedron);
+        //scene.add(tetrahedron);
+        drawSierpinskiGasket(v0,v1,v2,v3,4);
 
         // add the output of the renderer to the html element
         document.getElementById("WebGL-output").appendChild(renderer.domElement);
@@ -140,7 +141,7 @@
             tetrahedronGeo.faces=faces;
             tetrahedronGeo.computeFaceNormals();
 
-            var tetrahedronMat=new THREE.MeshLambertMaterial({color: 0x33aaff});
+            var tetrahedronMat=new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff	});
             var tetrahedronMesh=new THREE.Mesh(tetrahedronGeo, tetrahedronMat);
 
             return tetrahedronMesh;
@@ -151,12 +152,19 @@
             if(n<=1){
                 scene.add(getTetrahedron(v0,v1,v2,v3));
             }else{
+                // find the midpoints of the six sides of the tetraheron
                 var v01=v0.clone().lerp(v1, 0.5);
                 var v02=v0.clone().lerp(v2, 0.5);
                 var v03=v0.clone().lerp(v3, 0.5);
                 var v12=v1.clone().lerp(v2, 0.5);
                 var v13=v1.clone().lerp(v3, 0.5);
                 var v23=v2.clone().lerp(v3, 0.5);
+
+                drawSierpinskiGasket(v0,v01,v02,v03,n-1);
+                drawSierpinskiGasket(v01,v1,v12,v13,n-1);
+                drawSierpinskiGasket(v02,v12,v2,v23,n-1);
+                drawSierpinskiGasket(v03,v13,v23,v3,n-1);
+
             }
         }
 
